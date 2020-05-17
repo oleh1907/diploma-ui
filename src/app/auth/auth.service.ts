@@ -19,7 +19,7 @@ export class User {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   signup(username: string, password: string) {
     return this.http

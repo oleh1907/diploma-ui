@@ -1,0 +1,11 @@
+.custom-file-label::after {
+  content: "Вибрати";
+}
+.img-sized {
+  max-height: 350px;
+  max-width: 100%;
+  width: auto;
+}
+.red-text {
+  color: red;
+}

@@ -1,17 +1,64 @@
 <div class="row pt-4">
   <div class="col-md-4">
     <div class="alert alert-primary" role="alert">
-      Будь ласка, виберіть фотографію на своєму пристрої яку ви хочете
-      проаналізувати
+      Вас вітає <b>експертна система оцінювання якості продуктів харчування</b>.
+      Будь ласка, виберіть фотографію в форматі <b>PNG</b> або <b>JPEG</b> на
+      своєму пристрої яку ви хочете проаналізувати
     </div>
-    <div class="alert alert-warning" role="alert">
-      Увага! Сервер приймає для аналізу зображення тільки в таких форматах: png,
-      jpg
+
+    <div class="input-group mt-4">
+      <div class="custom-file">
+        <input
+          id="fileInput"
+          type="file"
+          accept="image/*"
+          class="form-control"
+          name="file"
+          (change)="onFileSelect($event)"
+          aria-describedby="fileInputAddon"
+          ngModel
+          #fileInput="ngModel"
+          required
+        />
+        <label class="custom-file-label overflow-hidden" for="fileInput">{{
+          fileInput.value
+        }}</label>
+      </div>
     </div>
+
+    <button
+      class="btn btn-success mt-4 mb-4"
+      (click)="onAnalyze()"
+      [disabled]="!imgURL"
+    >
+      Аналізувати
+    </button>
   </div>
+
   <div class="col-md-8">
-    <div class="alert alert-primary" role="alert">
-      Будь ласка, завантажте фотографію яку ви хочете проаналізувати
+    <img
+      *ngIf="imgURL"
+      [src]="imgURL"
+      class="img-sized"
+      alt="Image to analyze"
+    />
+
+    <div class="alert alert-warning mt-4" *ngIf="IsLoading" role="alert">
+      Зачекайте будь ласка, іде аналіз зображення
+    </div>
+
+    <div class="alert alert-danger mt-4" *ngIf="error" role="alert">
+      {{ error }}
+    </div>
+
+    <div class="alert alert-success mt-4" *ngIf="foodInfo" role="alert">
+      <p><b>Дані аналізу:</b></p>
+      <div><b>Назва: </b>{{ foodInfo.nameToDisplay }}</div>
+      <div><b>Категорія: </b>{{ foodInfo.category }}</div>
+      <div [class.red-text]="foodInfo.quality == 'Не можна споживати'">
+        <b>Якість: </b>{{ foodInfo.quality }}
+      </div>
+      <div><b>Опис: </b>{{ foodInfo.description }}</div>
     </div>
   </div>
 </div>
